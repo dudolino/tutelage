@@ -52,8 +52,8 @@ var TitelEditView = Backbone.View.extend({
 var SchrittView = Backbone.View.extend({
 
 	tagName : "div",
-	
-	className :"hero-unit",
+
+	className : "hero-unit",
 
 	template : _.template($('#template-Schritt').html()),
 
@@ -71,17 +71,13 @@ var SchrittEditView = Backbone.View.extend({
 	templateEdit : _.template($('#template-SchrittEdit').html()),
 
 	events : {
-		'blur #schrittTitelIn' : 'save',
+		'click #saveSchritt' : 'save',
+		'click #deleteSchritt' : 'deleteModel',
 		'dblclick #schrittTitel' : 'switchToEditView',
 	},
 
 	switchToEditView : function() {
-		this.$el.html(this.templateEdit(this.model.toJSON()));
-		
-		var editor = new wysihtml5.Editor("wysihtml5-textarea", { // id of textarea element
-			  toolbar:      "wysihtml5-toolbar", // id of toolbar element
-			  parserRules:  wysihtml5ParserRules // defined in parser rules set 
-			});
+		this.renderEdit();
 		return this;
 	},
 
@@ -93,6 +89,25 @@ var SchrittEditView = Backbone.View.extend({
 			beschreibung : b
 		});
 		this.$el.html(this.templateShow(this.model.toJSON()));
+		return this;
+	},
+
+	deleteModel : function() {
+		this.model.destroy();
+		this.$el.html("<div></div>");
+		return this;
+	},
+
+	renderEdit : function() {
+		this.$el.html(this.templateEdit(this.model.toJSON()));
+
+		var editor = new wysihtml5.Editor("wysihtml5-textarea", { // id of
+			// textarea
+			// element
+			toolbar : "wysihtml5-toolbar", // id of toolbar element
+			parserRules : wysihtml5ParserRules
+		// defined in parser rules set
+		});
 		return this;
 	},
 
@@ -116,7 +131,6 @@ var SchritteView = Backbone.View.extend({
 		}
 	}
 });
-
 
 var MaterialView = Backbone.View.extend({
 
@@ -194,9 +208,11 @@ var AnleitungEditView = Backbone.View.extend({
 	},
 
 	addSchritt : function() {
-		var schritt=new Schritt();
+		var schritt = new Schritt();
 		this.schritte.add(schritt);
-		var view = new SchrittEditView({model : schritt});
+		var view = new SchrittEditView({
+			model : schritt
+		});
 		this.schritteEditView.push(view);
 		this.$el.append(view.render().el);
 		return this;
@@ -211,12 +227,15 @@ var AnleitungEditView = Backbone.View.extend({
 	renderSchritte : function() {
 		if (this.schritte.length) {
 			this.schritte.each(function(schritt) {
-				var view = new SchrittEditView({model : schritt});
+				var view = new SchrittEditView({
+					model : schritt
+				});
 				this.$el.append(view.render().el);
 				this.schritteEditView.push(view);
 			}, this);
 			return this;
-		};
+		}
+		;
 	},
 
 });
