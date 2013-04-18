@@ -52,8 +52,8 @@ var TitelEditView = Backbone.View.extend({
 var SchrittView = Backbone.View.extend({
 
 	tagName : "div",
-
-	className : "well",
+	
+	className :"hero-unit",
 
 	template : _.template($('#template-Schritt').html()),
 
@@ -67,25 +67,27 @@ var SchrittEditView = Backbone.View.extend({
 
 	tagName : "div",
 
-	className : "well",
-
 	templateShow : _.template($('#template-Schritt').html()),
 	templateEdit : _.template($('#template-SchrittEdit').html()),
 
 	events : {
 		'blur #schrittTitelIn' : 'save',
-		'blur #beschreibungIn' : 'save',
-		'dblclick #beschreibung' : 'switchToEditView',
+		'dblclick #schrittTitel' : 'switchToEditView',
 	},
 
 	switchToEditView : function() {
 		this.$el.html(this.templateEdit(this.model.toJSON()));
+		
+		var editor = new wysihtml5.Editor("wysihtml5-textarea", { // id of textarea element
+			  toolbar:      "wysihtml5-toolbar", // id of toolbar element
+			  parserRules:  wysihtml5ParserRules // defined in parser rules set 
+			});
 		return this;
 	},
 
 	save : function() {
 		var t = this.$el.find('#schrittTitelIn').val();
-		var b = this.$el.find('#beschreibungIn').val();
+		var b = this.$el.find('#wysihtml5-textarea').val();
 		this.model.set({
 			schrittTitel : t,
 			beschreibung : b
@@ -103,7 +105,7 @@ var SchrittEditView = Backbone.View.extend({
 
 var SchritteView = Backbone.View.extend({
 
-	renderEdit : function() {
+	render : function() {
 		if (this.model.length) {
 			this.model.each(function(schritt) {
 				this.$el.append(new SchrittView({
@@ -196,7 +198,7 @@ var AnleitungEditView = Backbone.View.extend({
 		this.schritte.add(schritt);
 		var view = new SchrittEditView({model : schritt});
 		this.schritteEditView.push(view);
-		this.$el.append(view.render().el)
+		this.$el.append(view.render().el);
 		return this;
 	},
 
