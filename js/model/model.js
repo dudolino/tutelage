@@ -64,3 +64,7 @@ var Anleitung = Backbone.Model.extend({
 	
 });
 
+var Anleitungen = Backbone.Collection.extend({
+	model : Anleitung,
+});
+

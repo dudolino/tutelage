@@ -239,3 +239,28 @@ var AnleitungEditView = Backbone.View.extend({
 	},
 
 });
+
+var AnleitungListViewItem = Backbone.View.extend({
+
+	tagName : "li",
+
+	templateList : _.template($('#template-AnleitungList').html()),
+
+	render : function() {
+		this.$el.html(this.templateList(this.model.toJSON()));
+		return this;
+	}
+});
+
+var AnleitungListView = Backbone.View.extend({
+		
+		render : function() {
+			if (this.model.length) {
+				this.model.each(function(anleitung) {
+					this.$el.append(new AnleitungListViewItem({model : anleitung}).render().el);
+				}, this);
+				return this;
+			}
+			return this;
+		}
+});
