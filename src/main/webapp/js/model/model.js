@@ -28,8 +28,12 @@ var MaterialList = Backbone.Collection.extend({
 
 var Anleitung = Backbone.Model.extend({
 	
+	url: 'rest/anleitungen',
+	
+	idAttribute: "_id",
 	
 	defaults : {
+		
 		haupttitel : 'Haupttitel',
 
 		untertitel : 'Untertitel',
@@ -66,5 +70,7 @@ var Anleitung = Backbone.Model.extend({
 
 var Anleitungen = Backbone.Collection.extend({
 	model : Anleitung,
+	
+	url: 'rest/anleitungen',
 });
 

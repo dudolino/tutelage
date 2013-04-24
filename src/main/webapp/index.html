@@ -7,7 +7,7 @@
 </head>
 <body>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="all">
 		<div class="row-fluid">
 			<div id="side" class="span2">
 				<!--Sidebar content-->
@@ -103,7 +103,7 @@
 	</script>
 
  <script type="text/template" id="template-AnleitungList">
-	<a href="/edit/"><%- haupttitel %></a>
+	<a href="edit/<% _id %>"><%- haupttitel %></a>
 	</script>
 
 
@@ -121,10 +121,9 @@
 
 	<script type="text/javascript">
 		(function($) {
-			var nav = new NavigationView({ el: $('#side') });
+			var nav = new NavigationView({ el: $('#all') });
 			var app = new App();
 		    Backbone.history.start(); 
-			
 			/* var anleitung = new Anleitung();
 			var a = new AnleitungView({
 				el : $('#main'),

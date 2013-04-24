@@ -205,6 +205,7 @@ var AnleitungEditView = Backbone.View.extend({
 			haupttitel : h,
 			untertitel : u,
 		});
+		this.model.save();
 	},
 
 	addSchritt : function() {
@@ -253,7 +254,7 @@ var AnleitungListViewItem = Backbone.View.extend({
 });
 
 var AnleitungListView = Backbone.View.extend({
-		
+	
 		render : function() {
 			if (this.model.length) {
 				this.model.each(function(anleitung) {

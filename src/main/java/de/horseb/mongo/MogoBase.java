@@ -7,12 +7,14 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
+import com.mongodb.WriteResult;
 
 public class MogoBase {
 
-	public void insertOrUpdateDocumentInCollection(BasicDBObject document,
-			final String collectionName) throws UnknownHostException {
-		getCollection(collectionName).save(document);
+	public WriteResult insertOrUpdateDocumentInCollection(
+			BasicDBObject document, final String collectionName)
+			throws UnknownHostException {
+		return getCollection(collectionName).save(document);
 	}
 
 	public DBCursor getAllEntriesInCollection(final String collectionName)

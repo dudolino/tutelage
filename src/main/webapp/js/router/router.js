@@ -15,19 +15,12 @@ var App = Backbone.Router.extend({
 	routes : {
 		'' : 'home',
 		'add' : 'add',
-		'edit' : 'edit',
+		'edit/:id' : 'edit',
 	},
 
 	view : null,
 
 	highestID : 0,
-
-	initialize : function() {
-		this.anleitungCol = new Anleitungen();
-		this.anleitungCol.add(new Anleitung());
-		this.anleitungCol.add(new Anleitung());
-		this.anleitungCol.add(new Anleitung());
-	},
 
 	switchView : function(view) {
 		if (this.view) {
@@ -42,28 +35,36 @@ var App = Backbone.Router.extend({
 	},
 
 	home : function() {
-		var listView = new AnleitungListView({model : this.anleitungCol });
+		var a=new Anleitungen();
+		var listView = new AnleitungListView({model :  a});
 		this.switchView(listView);
+		a.fetch({success:function(){
+	       console.log("Anleitungen fetched...");
+	       listView.render();
+	    }});
 	},
 
-	show : function() {
+	show : function(id) {
+		var a=new Anleitung({_id:id});
+		a.fetch();
 		this.switchView(new AnleitungView({
-			model : this.anleitungCol[0]
+			model : a
 		}));
 	},
 
-	edit : function() {
+	edit : function(id) {
+		console.log("edit");
+		var a=new Anleitung({_id:id});
+		a.fetch();
 		this.switchView(new AnleitungEditView({
-			model : this.anleitungCol[0]
+			model : a
 		}));
 	},
 
 	add : function() {
 		var app = this;
 		var editView = new AnleitungEditView({
-			model : new Anleitung({
-				id : ++this.highestID
-			})
+			model : new Anleitung()
 		});
 		this.switchView(editView);
 		this.view.on('finished', function() {
