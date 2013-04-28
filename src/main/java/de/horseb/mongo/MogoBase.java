@@ -1,11 +1,15 @@
 package de.horseb.mongo;
 
 import java.net.UnknownHostException;
+import java.util.List;
+
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
@@ -17,9 +21,24 @@ public class MogoBase {
 		return getCollection(collectionName).save(document);
 	}
 
-	public DBCursor getAllEntriesInCollection(final String collectionName)
+	public List<DBObject> getAllEntriesInCollection(final String collectionName)
 			throws UnknownHostException {
-		DBCursor result = getCollection(collectionName).find();
+		DBCursor result = null;
+		try {
+			result = getCollection(collectionName).find();
+		} finally {
+			if (result != null) {
+				result.close();
+			}
+		}
+		return result.toArray();
+
+	}
+
+	public DBObject getOneByIdInCollection(final String collectionName,
+			String id) throws UnknownHostException {
+		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+		DBObject result = getCollection(collectionName).findOne(query);
 		return result;
 	}
 

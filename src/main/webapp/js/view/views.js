@@ -254,14 +254,19 @@ var AnleitungListViewItem = Backbone.View.extend({
 });
 
 var AnleitungListView = Backbone.View.extend({
-	
-		render : function() {
-			if (this.model.length) {
-				this.model.each(function(anleitung) {
-					this.$el.append(new AnleitungListViewItem({model : anleitung}).render().el);
-				}, this);
-				return this;
-			}
+
+	render : function() {
+		if (this.model.length) {
+			var nav = new NavigationView({
+				el : $('#main')
+			});
+			this.model.each(function(anleitung) {
+				this.$el.append(new AnleitungListViewItem({
+					model : anleitung
+				}).render().el);
+			}, this);
 			return this;
 		}
+		return this;
+	}
 });

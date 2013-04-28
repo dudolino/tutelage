@@ -8,13 +8,14 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
@@ -30,31 +31,38 @@ public class AnleitungService {
 	@Produces("application/json")
 	public List<DBObject> getAnleitungen() {
 		MogoBase mongo = new MogoBase();
-		DBCursor result = null;
+		List<DBObject> result = null;
 		try {
 			result = mongo.getAllEntriesInCollection(COLLECTION_ANLEITUNGEN);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result.toArray();
+		return result;
 	}
 
 	@GET
 	@Path("/anleitungen/{id}")
 	@Produces("application/json")
-	public Response getAnleitung(@PathParam("param") String id) {
-
-		String result = "Restful example : " + id;
-
-		return Response.status(200).entity(result).build();
-
+	public DBObject getAnleitung(@PathParam("param") String id) {
+		System.out.println("Called getAnleitung by Id " + id);
+		MogoBase mongo = new MogoBase();
+		DBObject result = null;
+		try {
+			result = mongo.getOneByIdInCollection(COLLECTION_ANLEITUNGEN, id);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@POST
+	@PUT
 	@Path("/anleitungen")
-	@Consumes("application/json")
-	public Response createAnleitung(Object o) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public BasicDBObject createAnleitung(Object o) {
 		LinkedHashMap m = (LinkedHashMap) o;
 		BasicDBObject b = new BasicDBObject();
 		b.putAll(m);
@@ -68,11 +76,11 @@ public class AnleitungService {
 			e.printStackTrace();
 		}
 
-		return Response.status(200).entity(result.toString()).build();
-
+		return b;
 	}
 
 	@POST
+	@PUT
 	@Path("/anleitungen/{id}")
 	@Consumes("application/json")
 	public Response updateAnleitung(@PathParam("param") String id,

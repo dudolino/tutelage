@@ -22,6 +22,10 @@ var App = Backbone.Router.extend({
 
 	highestID : 0,
 
+	initialize : function() {
+		this.anleitungen = new Anleitungen();
+	},
+
 	switchView : function(view) {
 		if (this.view) {
 			if (this.view.destroy) {
@@ -35,27 +39,53 @@ var App = Backbone.Router.extend({
 	},
 
 	home : function() {
-		var a=new Anleitungen();
-		var listView = new AnleitungListView({model :  a});
+		var listView = new AnleitungListView({
+			model : this.anleitungen
+		});
 		this.switchView(listView);
-		a.fetch({success:function(){
-	       console.log("Anleitungen fetched...");
-	       listView.render();
-	    }});
+		this.anleitungen.fetch({
+			success : function() {
+				console.log("Anleitungen fetched...");
+				listView.render();
+			}
+		});
 	},
 
 	show : function(id) {
-		var a=new Anleitung({_id:id});
+		var a = new Anleitung({
+			id : id
+		});
 		a.fetch();
 		this.switchView(new AnleitungView({
 			model : a
 		}));
 	},
 
-	edit : function(id) {
-		console.log("edit");
-		var a=new Anleitung({_id:id});
-		a.fetch();
+	edit : function(aid) {
+		console.log("edit with " + aid);
+
+		var intId = parseInt(aid);
+
+		this.anleitungen.each(function(anleitung) {
+			console.log(anleitung.get("_id"));
+			console.log(anleitung.get("id"));
+		}, this);
+
+		var a = this.anleitungen.findWhere({
+			id : intId
+		});
+
+		var b = this.anleitungen.findWhere({
+			id : intId
+		});
+		console.log(b);
+
+		var c = this.anleitungen.findWhere({
+			id : "1366919355000"
+		});
+		console.log(c);
+		console.log(a);
+		console.log(a.get("id"));
 		this.switchView(new AnleitungEditView({
 			model : a
 		}));
@@ -63,8 +93,10 @@ var App = Backbone.Router.extend({
 
 	add : function() {
 		var app = this;
+		var a = new Anleitung();
+		this.anleitungen.create(a);
 		var editView = new AnleitungEditView({
-			model : new Anleitung()
+			model : a
 		});
 		this.switchView(editView);
 		this.view.on('finished', function() {
