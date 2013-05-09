@@ -28,12 +28,19 @@ var MaterialList = Backbone.Collection.extend({
 
 var Anleitung = Backbone.Model.extend({
 
-	url : 'rest/anleitungen',
-
-	// idAttribute : "_id",
+	// idAttribute : 'id',
+	urlRoot : 'rest/anleitungen',
+	// urlRoot : function() {
+	// if (this.isNew()) {
+	// return "rest/anleitungen";
+	// } else {
+	// return "rest/anleitungen/" + this.id;
+	// }
+	// },
 
 	parse : function(response) {
-		response.id = parseInt(response._id['time']);
+		// response.id = parseInt(response._id['$oid']);
+		response.id = response._id['$oid'];
 		return response;
 	},
 
@@ -52,8 +59,17 @@ var Anleitung = Backbone.Model.extend({
 
 	initialize : function() {
 		this.schritte = new SchritteList();
-		this.material = new MaterialList();
-		this.createTestData();
+		// var schritteList = new SchritteList();
+		// var schritt = new Schritt();
+		// this.schritte.add(schritt);
+		this.set("schritte", this.schritte);
+		//
+		// var materialListe = new MaterialList();
+		// this.set("material", materialListe);
+
+		console.log("Anleitung initialized");
+		console.log(this.toJSON());
+		// this.createTestData();
 	},
 
 	createTestData : function() {

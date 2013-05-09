@@ -47,9 +47,12 @@
             <label for="haupttitel">Titel:</label>
             <input type="text" class="span4" id="haupttitel" value="<%- haupttitel %>">
 </div>
-</div>
+<div>
             <label for="untertitel">Untertitel:</label>
             <input type="text" class="span8" id="untertitel" value="<%- untertitel %>">
+</div>
+<div class="span12">
+            <input type="button" id="speichern" value="Speichern">
 </div>
 <div class="span12">
             <input type="button" id="addSchritt" value="Schritt hinzufügen">
@@ -123,6 +126,7 @@
 		(function($) {
 			var nav = new NavigationView({ el: $('#all') });
 			var app = new App();
+			
 		    Backbone.history.start(); 
 			/* var anleitung = new Anleitung();
 			var a = new AnleitungView({

@@ -4,6 +4,7 @@ var NavigationView = Backbone.View.extend({
 	},
 
 	navigate : function(el) {
+		console.log("navigate");
 		Backbone.history.navigate($(el.target).attr('href'), {
 			trigger : true
 		});
@@ -43,12 +44,14 @@ var App = Backbone.Router.extend({
 			model : this.anleitungen
 		});
 		this.switchView(listView);
+		// this.anleitungen.fetch();
 		this.anleitungen.fetch({
 			success : function() {
 				console.log("Anleitungen fetched...");
 				listView.render();
 			}
 		});
+
 	},
 
 	show : function(id) {
@@ -62,49 +65,32 @@ var App = Backbone.Router.extend({
 	},
 
 	edit : function(aid) {
-		console.log("edit with " + aid);
-
-		var intId = parseInt(aid);
-
-		this.anleitungen.each(function(anleitung) {
-			console.log(anleitung.get("_id"));
-			console.log(anleitung.get("id"));
-		}, this);
-
-		var a = this.anleitungen.findWhere({
-			id : intId
+		console.log("edit called");
+		var anleitung = new Anleitung({
+			id : aid,
 		});
+		anleitung.fetch();
 
-		var b = this.anleitungen.findWhere({
-			id : intId
-		});
-		console.log(b);
-
-		var c = this.anleitungen.findWhere({
-			id : "1366919355000"
-		});
-		console.log(c);
-		console.log(a);
-		console.log(a.get("id"));
 		this.switchView(new AnleitungEditView({
-			model : a
+			model : anleitung
 		}));
 	},
 
 	add : function() {
-		var app = this;
+		// var app = this;
 		var a = new Anleitung();
-		this.anleitungen.create(a);
+
+		// this.anleitungen.add(a);
 		var editView = new AnleitungEditView({
 			model : a
 		});
 		this.switchView(editView);
-		this.view.on('finished', function() {
-			app.anleitungCol.push(this.model);
-			Backbone.history.navigate('/', {
-				trigger : true
-			});
-		});
+		// this.view.on('finished', function() {
+		// app.anleitungCol.push(this.model);
+		// Backbone.history.navigate('/', {
+		// trigger : true
+		// });
+		// });
 	},
 
 });

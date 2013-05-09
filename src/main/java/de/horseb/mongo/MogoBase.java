@@ -1,6 +1,7 @@
 package de.horseb.mongo;
 
 import java.net.UnknownHostException;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -18,7 +19,26 @@ public class MogoBase {
 	public WriteResult insertOrUpdateDocumentInCollection(
 			BasicDBObject document, final String collectionName)
 			throws UnknownHostException {
+		parseAndReplaceId(document);
+
 		return getCollection(collectionName).save(document);
+	}
+
+	// TODO bessere Lösung finden
+	private void parseAndReplaceId(BasicDBObject document) {
+		if (document.get("_id") != null) {
+			LinkedHashMap idMap = (LinkedHashMap) document.get("_id");
+			System.out.println("update document with id"
+					+ document.get("_id").toString());
+			String idAttr = (String) idMap.get("$oid");
+			document.remove("_id");
+			document.remove("id");
+			document.append("_id", new ObjectId(idAttr));
+
+		} else {
+			System.out.println("create new document");
+			document.remove("id");
+		}
 	}
 
 	public List<DBObject> getAllEntriesInCollection(final String collectionName)

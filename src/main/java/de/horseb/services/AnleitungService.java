@@ -29,7 +29,8 @@ public class AnleitungService {
 	@GET
 	@Path("/anleitungen")
 	@Produces("application/json")
-	public List<DBObject> getAnleitungen() {
+	public String getAnleitungen() {
+		System.out.println("Called getAnleitung");
 		MogoBase mongo = new MogoBase();
 		List<DBObject> result = null;
 		try {
@@ -38,13 +39,13 @@ public class AnleitungService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		return result.toString();
 	}
 
 	@GET
 	@Path("/anleitungen/{id}")
 	@Produces("application/json")
-	public DBObject getAnleitung(@PathParam("param") String id) {
+	public String getAnleitung(@PathParam("id") String id) {
 		System.out.println("Called getAnleitung by Id " + id);
 		MogoBase mongo = new MogoBase();
 		DBObject result = null;
@@ -54,7 +55,7 @@ public class AnleitungService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		return result.toString();
 	}
 
 	@POST
@@ -62,10 +63,12 @@ public class AnleitungService {
 	@Path("/anleitungen")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public BasicDBObject createAnleitung(Object o) {
+	public String createAnleitung(Object o) {
 		LinkedHashMap m = (LinkedHashMap) o;
 		BasicDBObject b = new BasicDBObject();
 		b.putAll(m);
+		System.out.println("createAnleitung called with " + b.toString());
+
 		MogoBase mongo = new MogoBase();
 		WriteResult result = null;
 		try {
@@ -76,7 +79,7 @@ public class AnleitungService {
 			e.printStackTrace();
 		}
 
-		return b;
+		return b.toString();
 	}
 
 	@POST
@@ -85,7 +88,7 @@ public class AnleitungService {
 	@Consumes("application/json")
 	public Response updateAnleitung(@PathParam("param") String id,
 			DBObject object) {
-
+		System.out.println("updateAnleitung called with " + id);
 		String result = "Restful example : " + id;
 
 		return Response.status(200).entity(result).build();
