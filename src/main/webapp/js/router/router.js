@@ -66,11 +66,9 @@ var App = Backbone.Router.extend({
 
 	edit : function(aid) {
 		console.log("edit called");
-		var anleitung = new Anleitung({
+		var anleitung = Anleitung.findOrCreate({
 			id : aid,
 		});
-		anleitung.fetch();
-
 		this.switchView(new AnleitungEditView({
 			model : anleitung
 		}));

@@ -13,7 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -64,11 +63,37 @@ public class AnleitungService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String createAnleitung(Object o) {
+		System.out.println("createAnleitung called");
+		return updateOrCreateAnleitung(o);
+	}
+
+	@POST
+	@PUT
+	@Path("/anleitungen/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateAnleitung(@PathParam("id") String id, Object o) {
+		System.out.println("updateAnleitung called with " + id);
+		return updateOrCreateAnleitung(o);
+
+	}
+
+	@DELETE
+	@Path("/anleitungen/{id}")
+	public boolean deleteAnleitung(@PathParam("id") String id) {
+
+		String result = "Restful example : " + id;
+
+		return false;
+
+	}
+
+	private String updateOrCreateAnleitung(Object o) {
 		LinkedHashMap m = (LinkedHashMap) o;
 		BasicDBObject b = new BasicDBObject();
 		b.putAll(m);
-		System.out.println("createAnleitung called with " + b.toString());
-
+		System.out.println("updateOrCreateAnleitung called with "
+				+ b.toString());
 		MogoBase mongo = new MogoBase();
 		WriteResult result = null;
 		try {
@@ -80,29 +105,6 @@ public class AnleitungService {
 		}
 
 		return b.toString();
-	}
-
-	@POST
-	@PUT
-	@Path("/anleitungen/{id}")
-	@Consumes("application/json")
-	public Response updateAnleitung(@PathParam("param") String id,
-			DBObject object) {
-		System.out.println("updateAnleitung called with " + id);
-		String result = "Restful example : " + id;
-
-		return Response.status(200).entity(result).build();
-
-	}
-
-	@DELETE
-	@Path("/anleitungen/{id}")
-	public Response deleteAnleitung(@PathParam("param") String id) {
-
-		String result = "Restful example : " + id;
-
-		return Response.status(200).entity(result).build();
-
 	}
 
 }

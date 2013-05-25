@@ -1,4 +1,4 @@
-var Schritt = Backbone.Model.extend({
+var Schritt = Backbone.RelationalModel.extend({
 	defaults : {
 		schrittTitel : 'Titel',
 		beschreibung : 'Beschreibung',
@@ -13,7 +13,7 @@ var SchritteList = Backbone.Collection.extend({
 
 });
 
-var Material = Backbone.Model.extend({
+var Material = Backbone.RelationalModel.extend({
 	defaults : {
 		url : 'URL',
 		beschreibung : 'Beschreibung',
@@ -26,17 +26,29 @@ var MaterialList = Backbone.Collection.extend({
 
 });
 
-var Anleitung = Backbone.Model.extend({
+var Anleitung = Backbone.RelationalModel.extend({
 
-	// idAttribute : 'id',
+	relations : [ {
+		type : Backbone.HasMany,
+		key : 'schritte',
+		relatedModel : 'Schritt',
+		collectionType : 'SchritteList',
+		reverseRelation : {
+			key : 'schrittFor',
+		}
+	}, {
+		type : Backbone.HasMany,
+		key : 'material',
+		relatedModel : 'Material',
+		collectionType : 'MaterialList',
+		reverseRelation : {
+			key : 'materialFor',
+		}
+	}
+
+	],
+
 	urlRoot : 'rest/anleitungen',
-	// urlRoot : function() {
-	// if (this.isNew()) {
-	// return "rest/anleitungen";
-	// } else {
-	// return "rest/anleitungen/" + this.id;
-	// }
-	// },
 
 	parse : function(response) {
 		// response.id = parseInt(response._id['$oid']);
@@ -51,18 +63,18 @@ var Anleitung = Backbone.Model.extend({
 		haupttitel : 'Haupttitel',
 
 		untertitel : 'Untertitel',
-
-		schritte : [],
-
-		material : [],
+	//
+	// schritte : [],
+	//
+	// material : [],
 	},
 
 	initialize : function() {
-		this.schritte = new SchritteList();
+		// this.schritte = new SchritteList();
 		// var schritteList = new SchritteList();
 		// var schritt = new Schritt();
 		// this.schritte.add(schritt);
-		this.set("schritte", this.schritte);
+		// this.set("schritte", this.schritte);
 		//
 		// var materialListe = new MaterialList();
 		// this.set("material", materialListe);
