@@ -163,7 +163,6 @@ var AnleitungEditView = Backbone.View.extend({
 	initialize : function() {
 		this.model.bind('change', this.render, this);
 		this.schritte = this.model.get("schritte");
-		console.log(this.schritte.length);
 		this.schritteEditView = [];
 	},
 

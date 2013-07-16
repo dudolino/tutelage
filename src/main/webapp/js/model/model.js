@@ -1,3 +1,17 @@
+var Session = Backbone.Model.extend({
+	defaults : {
+		accessToken : '',
+		userId : '',
+	},
+
+	isAuthenticated : function() {
+		if (this.get('accessToken') != null) {
+			return true;
+		}
+		return false;
+	}
+});
+
 var Schritt = Backbone.RelationalModel.extend({
 	defaults : {
 		schrittTitel : 'Titel',
