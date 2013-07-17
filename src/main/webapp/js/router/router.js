@@ -17,6 +17,9 @@ var App = Backbone.Router.extend({
 		'' : 'home',
 		'add' : 'add',
 		'edit/:id' : 'edit',
+		'show/:id' : 'show',
+		'login' : 'login',
+		'auth?code=:code' : 'auth',
 	},
 
 	view : null,
@@ -25,6 +28,7 @@ var App = Backbone.Router.extend({
 
 	initialize : function() {
 		this.anleitungen = new Anleitungen();
+		this.session = new Session();
 	},
 
 	switchView : function(view) {
@@ -65,6 +69,9 @@ var App = Backbone.Router.extend({
 	},
 
 	edit : function(aid) {
+		if (this.session.isAuthenticated()) {
+			console.log("isAuthenticated");
+		}
 		console.log("edit called");
 		var anleitung = Anleitung.findOrCreate({
 			id : aid,
@@ -89,6 +96,27 @@ var App = Backbone.Router.extend({
 		// trigger : true
 		// });
 		// });
+	},
+
+	login : function() {
+		console.log("Login 1");
+		$.get("rest/authUrl").done(function(data) {
+			window.location.href = data;
+		});
+	},
+
+	auth : function(code) {
+		console.log("Login 2");
+		if (typeof code != 'undefined') {
+			console.log(code);
+			$.post("rest/auth", code).done(function(data) {
+				this.session.set('accessToken', data);
+				console.log(this.session.isAuthenticated());
+			});
+		} else {
+			console.log("bla");
+		}
+
 	},
 
 });
