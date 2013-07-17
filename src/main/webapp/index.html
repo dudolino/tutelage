@@ -69,8 +69,8 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="span12">
-			<label for="wysihtml5-textarea">Beschreibung:</label>
+		<div class="span12" id="desc">
+			<label for="schritt-textarea">Beschreibung:</label>
 
 			<div id="wysihtml5-toolbar" style="display: none;">
 
@@ -84,15 +84,15 @@
 
 					<div class="btn-group">
 						<button class="btn btn-small" data-wysihtml5-command="insertUnorderedList">Liste</button>
-						<button class="btn btn-small"
-							data-wysihtml5-command="data-wysihtml5-command="insertOrderedList"">Nummerierung</button>
-					</div>
+						<button class="btn btn-small" data-wysihtml5-command="insertOrderedList">Nummerierung</button>
+                        <!-- User can define the link's href: -->
+                    </div>
 				</div>
 
 			</div>
 
 
-			<textarea class="span8" rows=10 id="wysihtml5-textarea"
+			<textarea id="schritt-textarea" class="span8" rows=10
 				placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
 		</div>
 	</div>
