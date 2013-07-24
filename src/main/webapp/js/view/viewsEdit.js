@@ -46,6 +46,71 @@ var SchrittEditView = Backbone.View.extend({
 
 });
 
+var MaterialListEditView = Backbone.View.extend({
+
+    tagName:"tr",
+
+    templateEdit: _.template($('#template-MaterialListEdit').html()),
+
+    events: {
+        'click #editMaterial': 'editMaterial',
+        'click #removeMaterial': 'removeMaterial'
+
+    },
+
+    editMaterial: function () {
+        var materialEdit = new MaterialEditView({model: this.model});
+        this.$el.append(materialEdit.render().el);
+        this.$el.find('#materialEditModal').modal('show');
+    },
+
+    removeMaterial: function () {
+        this.model.destroy();
+        this.$el.html("<div></div>");
+        return this;
+    },
+
+    render: function () {
+        this.$el.html(this.templateEdit(this.model.toJSON()));
+        return this;
+    }
+})
+
+var MaterialEditView = Backbone.View.extend({
+    tagName: "div",
+
+    templateEdit: _.template($('#template-MaterialEdit').html()),
+
+    events: {
+        'click #saveMaterial': 'saveMaterial',
+        'click #delete': 'delete'
+
+
+    },
+
+    saveMaterial: function () {
+        var bes = this.$el.find('#matBeschreibung').val();
+        var url = this.$el.find('#matURL').val();
+        this.model.set({
+            beschreibung: bes,
+            url: url
+        });
+        this.$el.find('#materialEditModal').modal('hide');
+        this.$el.html("");
+    },
+
+    delete: function () {
+        this.$el.find('#materialEditModal').modal('hide');
+        this.model.destroy();
+        this.$el.html("");
+    },
+
+    render: function () {
+        this.$el.html(this.templateEdit(this.model.toJSON()));
+        return this;
+    }
+})
+
 var AnleitungEditView = Backbone.View.extend({
 
     tagName: "div",
@@ -55,13 +120,17 @@ var AnleitungEditView = Backbone.View.extend({
     initialize: function () {
         this.model.bind('change', this.render, this);
         this.schritte = this.model.get("schritte");
-        console.log(this.schritte.length);
+        this.material = this.model.get("material");
+        this.material.on("change", function (model, value, options) {
+            this.renderMaterial();
+        }, this);
         this.schritteEditView = [];
     },
 
     events: {
         'click #addSchritt': 'addSchritt',
-        'click #speichern': 'saveAnleitung'
+        'click #speichern': 'saveAnleitung',
+        'click #addMaterial': 'addMaterial'
 
     },
 
@@ -72,18 +141,18 @@ var AnleitungEditView = Backbone.View.extend({
             haupttitel: h,
             untertitel: u
         });
-       this.readSchritte() ;
+        this.readSchritte();
         this.model.save();
     },
 
-    readSchritte: function(){
+    readSchritte: function () {
         if (this.schritteEditView.length) {
             console.log("Es gibt Schritte zu speichern: "
                 + this.schritteEditView.length);
             _.each(this.schritteEditView, function (schrittEditView) {
                 console.log("read Schritt");
-                if(schrittEditView instanceof SchrittEditView) {
-                schrittEditView.read();
+                if (schrittEditView instanceof SchrittEditView) {
+                    schrittEditView.read();
                 }
             });
         }
@@ -100,12 +169,22 @@ var AnleitungEditView = Backbone.View.extend({
         this.schritteEditView.push(view);
         this.$el.append(view.render().el);
         view.createTextarea();
+        console.log("Material " + this.material.length);
         return this;
+    },
+
+    addMaterial: function () {
+        var mat = new Material();
+        var materialEdit = new MaterialEditView({model: mat});
+        this.material.add(mat);
+        this.$el.append(materialEdit.render().el);
+        this.$el.find('#materialEditModal').modal('show');
     },
 
     render: function () {
         this.$el.empty();
         this.$el.append(this.templateEdit(this.model.toJSON()));
+        this.renderMaterial();
         this.renderSchritte();
         return this;
     },
@@ -118,6 +197,20 @@ var AnleitungEditView = Backbone.View.extend({
                 });
                 this.$el.append(view.render().el);
                 this.schritteEditView.push(view);
+            }, this);
+            return this;
+        }
+    },
+
+    renderMaterial: function () {
+        var area = $('#materialContainer');
+        area.empty();
+        if (this.material.length) {
+            this.material.each(function (material) {
+                var view = new MaterialListEditView({
+                    model: material
+                });
+                area.append(view.render().el);
             }, this);
             return this;
         }

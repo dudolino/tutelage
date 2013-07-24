@@ -14,7 +14,7 @@ var AnleitungTitelView = Backbone.View.extend({
 
 var SchrittView = Backbone.View.extend({
 
-	tagName : "div",
+	tagName : "table",
 
 	className : "hero-unit",
 
