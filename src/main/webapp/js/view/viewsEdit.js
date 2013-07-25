@@ -121,9 +121,8 @@ var AnleitungEditView = Backbone.View.extend({
         this.model.bind('change', this.render, this);
         this.schritte = this.model.get("schritte");
         this.material = this.model.get("material");
-        this.material.on("change", function (model, value, options) {
-            this.renderMaterial();
-        }, this);
+        this.material.on("change", this.renderMaterial, this);
+        this.material.on("destroy", this.renderMaterial, this);
         this.schritteEditView = [];
     },
 
