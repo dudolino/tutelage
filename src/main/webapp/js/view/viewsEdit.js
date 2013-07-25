@@ -16,12 +16,14 @@ var SchrittEditView = Backbone.View.extend({
             schrittTitel: t,
             beschreibung: b
         });
+        this.$el.find('#schrittEditModal').modal('hide');
+        this.$el.html("");
     },
 
     deleteModel: function () {
+        this.$el.find('#schrittEditModal').modal('hide');
         this.model.destroy();
-        this.$el.html("<div></div>");
-        return this;
+        this.$el.html("");
     },
 
     render: function () {
@@ -91,6 +93,7 @@ var MaterialEditView = Backbone.View.extend({
     saveMaterial: function () {
         var bes = this.$el.find('#matBeschreibung').val();
         var url = this.$el.find('#matURL').val();
+
         this.model.set({
             beschreibung: bes,
             url: url
@@ -118,12 +121,14 @@ var AnleitungEditView = Backbone.View.extend({
     templateEdit: _.template($('#template-TitelEdit').html()),
 
     initialize: function () {
-        this.model.bind('change', this.render, this);
         this.schritte = this.model.get("schritte");
         this.material = this.model.get("material");
+        this.material.on("add", this.renderMaterial, this);
         this.material.on("change", this.renderMaterial, this);
         this.material.on("destroy", this.renderMaterial, this);
-        this.schritteEditView = [];
+        this.schritte.on("add", this.renderSchritte, this);
+        this.schritte.on("change", this.renderSchritte, this);
+        this.schritte.on("destroy", this.renderSchritte, this);
     },
 
     events: {
@@ -140,36 +145,19 @@ var AnleitungEditView = Backbone.View.extend({
             haupttitel: h,
             untertitel: u
         });
-        this.readSchritte();
         this.model.save();
     },
 
-    readSchritte: function () {
-        if (this.schritteEditView.length) {
-            console.log("Es gibt Schritte zu speichern: "
-                + this.schritteEditView.length);
-            _.each(this.schritteEditView, function (schrittEditView) {
-                console.log("read Schritt");
-                if (schrittEditView instanceof SchrittEditView) {
-                    schrittEditView.read();
-                }
-            });
-        }
-    },
-
     addSchritt: function () {
-        this.readSchritte();
-        this.render();
         var schritt = new Schritt();
         this.schritte.add(schritt);
         var view = new SchrittEditView({
             model: schritt
         });
-        this.schritteEditView.push(view);
         this.$el.append(view.render().el);
         view.createTextarea();
         console.log("Material " + this.material.length);
-        return this;
+        this.$el.find('#schrittEditModal').modal('show');
     },
 
     addMaterial: function () {
@@ -189,13 +177,15 @@ var AnleitungEditView = Backbone.View.extend({
     },
 
     renderSchritte: function () {
+        console.log("Test");
+        var area = $('#schrittContainer');
+        area.empty();
         if (this.schritte.length) {
             this.schritte.each(function (schritt) {
                 var view = new SchrittView({
                     model: schritt
                 });
-                this.$el.append(view.render().el);
-                this.schritteEditView.push(view);
+                area.append(view.render().el);
             }, this);
             return this;
         }

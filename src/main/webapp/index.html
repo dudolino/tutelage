@@ -66,6 +66,7 @@
         <input type="button" id="addSchritt" value="Schritt hinzufügen">
     </div>
     <table class="table table-striped" id="materialContainer"></table>
+    <div id="schrittContainer"></div>
 </script>
 
 
@@ -89,34 +90,29 @@
             <input type="text" id="matURL" value="<%- url %>">
         </div>
         <div class="modal-footer">
-            <button id="delete" class="btn" data-dismiss="materialEditModal" aria-hidden="true">Löschen</button>
+            <button id="delete" class="btn">Löschen</button>
             <button id="saveMaterial" class="btn btn-primary">Speichern</button>
         </div>
     </div>
 </script>
 
 <script type="text/template" id="template-SchrittEdit">
-    <div class="row">
-        <div class="span12">
+
+    <div id="schrittEditModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
             <label for="schrittTitelIn">Titel:</label> <input class="span8"
                                                               type="text" id="schrittTitelIn"
                                                               value="<%- schrittTitel %>">
         </div>
-    </div>
-    <div class="row">
-        <div class="span12" id="desc">
+        <div class="modal-body">
             <label for="schritt-textarea">Beschreibung:</label>
 
             <textarea id="schritt-textarea" class="span8" rows=10
                       placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
         </div>
-    </div>
-    <div class="row">
-        <div class="span12">
-            <div class="btn-group">
-                <button class="btn" id="saveSchritt">Schritt speichern</button>
-                <button class="btn" id="deleteSchritt">Schritt verwerfen</button>
-            </div>
+        <div class="modal-footer">
+            <button class="btn" id="deleteSchritt">Schritt verwerfen</button>
+            <button class="btn btn-primary" id="saveSchritt">Schritt speichern</button>
         </div>
     </div>
 </script>
