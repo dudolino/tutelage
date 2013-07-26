@@ -29,9 +29,9 @@ var SchritteList = Backbone.Collection.extend({
 
 var Material = Backbone.RelationalModel.extend({
 	defaults : {
-		url : 'URL',
-		beschreibung : 'Beschreibung',
-	},
+		url : 'http://url.com',
+		beschreibung : 'Beschreibung'
+	}
 
 });
 

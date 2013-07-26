@@ -7,7 +7,7 @@ var AnleitungTitelView = Backbone.View.extend({
 	template : _.template($('#template-TitelHeader').html()),
 
 	render : function() {
-		this.$el.html(this.template(this.model.toJSON()));
+		this.$el.html(this.template(this.model.toJSON().el));
 		return this;
 	}
 });

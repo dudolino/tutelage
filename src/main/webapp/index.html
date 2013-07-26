@@ -78,7 +78,7 @@
 </script>
 
 <script type="text/template" id="template-MaterialEdit">
-    <div id="materialEditModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="materialEditModal" class="modal hide fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
         <div class="modal-header">
             <h3 id="myModalLabel">Material</h3>
         </div>
@@ -98,7 +98,7 @@
 
 <script type="text/template" id="template-SchrittEdit">
 
-    <div id="schrittEditModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="schrittEditModal" class="modal container hide fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
         <div class="modal-header">
             <label for="schrittTitelIn">Titel:</label> <input class="span8"
                                                               type="text" id="schrittTitelIn"
@@ -107,14 +107,50 @@
         <div class="modal-body">
             <label for="schritt-textarea">Beschreibung:</label>
 
+            <div class="btn-group dropdown">
+                <button class="btn">Material</button>
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul id="materialUseList" class="dropdown-menu">
+                    <!--render Material template-materialUseEntry -->
+                </ul>
+            </div>
+
+            <div id="toolbar" style="display: none;">
+                <a data-wysihtml5-command="bold">bold</a>
+                <a data-wysihtml5-command="italic">italic</a>
+
+                <!-- Some wysihtml5 commands require extra parameters -->
+                <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a>
+                <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a>
+                <a data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a>
+
+                <!-- Some wysihtml5 commands like 'createLink' require extra paramaters specified by the user (eg. href) -->
+                <a data-wysihtml5-command="createLink">insert link</a>
+                <div data-wysihtml5-dialog="createLink" style="display: none;">
+                    <label>
+                        Link:
+                        <input data-wysihtml5-dialog-field="href" value="http://" class="text">
+                    </label>
+                    <a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                </div>
+            </div>
+
+              <form>
             <textarea id="schritt-textarea" class="span8" rows=10
                       placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
+              </form>
         </div>
         <div class="modal-footer">
             <button class="btn" id="deleteSchritt">Schritt verwerfen</button>
             <button class="btn btn-primary" id="saveSchritt">Schritt speichern</button>
         </div>
     </div>
+</script>
+
+<script type="text/template" id="template-materialUseEntry">
+    <li><a id="materialUse" name="<%- beschreibung %>"><%- beschreibung %></a></li>
 </script>
 
 <script type="text/template" id="template-AnleitungList">
@@ -129,8 +165,7 @@
 <script src="js/backbone.localStorage.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/advanced.js"></script>
-<script src="js/wysihtml5-0.3.0_rc2.js"></script>
-<script src="js/bootstrap-wysihtml5-0.0.2.js"></script>
+<script src="js/wysihtml5-0.3.0.js"></script>
 <script src="js/model/model.js"></script>
 <script src="js/view/views.js"></script>
 <script src="js/view/viewsEdit.js"></script>
@@ -148,8 +183,9 @@
          model : anleitung
          });
          a.render();  */
-
     })(jQuery);
+
+
 </script>
 </body>
 </html>
