@@ -7,8 +7,8 @@ var SchrittEditView = Backbone.View.extend({
 
     initialize: function (attrs) {
         this.material = attrs.material;
-        this.editor=null;
-    }     ,
+        this.editor = null;
+    },
 
     events: {
         'click #saveSchritt': 'read',
@@ -39,40 +39,27 @@ var SchrittEditView = Backbone.View.extend({
         return this;
     },
 
-    renderMaterialUseList:function(){
+    renderMaterialUseList: function () {
         var area = this.$el.find('#materialUseList');
-        console.log(area.toString());
         if (this.material.length) {
             this.material.each(function (ma) {
                 area.append(this.templateMaterialUse(ma.toJSON()));
-           }, this);
-        };
+            }, this);
+        }
+        ;
 
     },
 
     createTextarea: function () {
-
         this.editor = new wysihtml5.Editor("schritt-textarea", { // id of textarea element
-            toolbar:      "toolbar", // id of toolbar element
-            parserRules:  wysihtml5ParserRules // defined in parser rules set
+            toolbar: "toolbar", // id of toolbar element
+            parserRules: wysihtml5ParserRules // defined in parser rules set
         });
-
-
-       /* $('#schritt-textarea').wysihtml5({
-            "font-styles": true, //Font styling, e.g. h1, h2, etc. Default true
-            "emphasis": true, //Italics, bold, etc. Default true
-            "lists": true, //(Un)ordered lists, e.g. Bullets, Numbers. Default true
-            "html": false, //Button which allows you to edit the generated HTML. Default false
-            "link": true, //Button to insert a link. Default true
-            "image": true, //Button to insert an image. Default true,
-            "color": false //Button to change color of font
-        });*/
-
     },
 
-    useMaterial: function(){
-        var selectedMaterial=this.material.findWhere({beschreibung:arguments[0].currentTarget.name}) ;
-        this.editor.composer.commands.exec("createLink", { id:selectedMaterial.get('beschreibung'), text: selectedMaterial.get('beschreibung'), name: selectedMaterial.get('beschreibung') , href: selectedMaterial.get('url')});
+    useMaterial: function () {
+        var selectedMaterial = this.material.findWhere({beschreibung: arguments[0].currentTarget.name});
+        this.editor.composer.commands.exec("createLink", { id: selectedMaterial.get('beschreibung'), text: selectedMaterial.get('beschreibung'), name: selectedMaterial.get('beschreibung'), href: selectedMaterial.get('url')});
     }
 
 });
@@ -187,7 +174,6 @@ var AnleitungEditView = Backbone.View.extend({
         });
         this.$el.append(view.render().el);
         view.createTextarea();
-        console.log("Material " + this.material.length);
         this.$el.find('#schrittEditModal').modal();
     },
 
@@ -208,7 +194,6 @@ var AnleitungEditView = Backbone.View.extend({
     },
 
     renderSchritte: function () {
-        console.log("Test");
         var area = $('#schrittContainer');
         area.empty();
         if (this.schritte.length) {
@@ -233,7 +218,8 @@ var AnleitungEditView = Backbone.View.extend({
                 area.append(view.render().el);
             }, this);
             return this;
-        };
+        }
+        ;
     }
 
 });
