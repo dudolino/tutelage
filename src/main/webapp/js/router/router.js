@@ -5,9 +5,13 @@ var NavigationView = Backbone.View.extend({
 
 	navigate : function(el) {
 		console.log("navigate");
-		Backbone.history.navigate($(el.target).attr('href'), {
-			trigger : true
-		});
+		var target = $(el.target).attr('href');
+		if (target != undefined) {
+			Backbone.history.navigate(target, {
+				trigger : true
+			});
+		}
+
 		return false;
 	}
 });
