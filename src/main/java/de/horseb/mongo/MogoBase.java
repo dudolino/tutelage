@@ -16,12 +16,18 @@ import com.mongodb.WriteResult;
 
 public class MogoBase {
 
+	private MongoClient client;
+
 	public WriteResult insertOrUpdateDocumentInCollection(
 			BasicDBObject document, final String collectionName)
 			throws UnknownHostException {
-		parseAndReplaceId(document);
-
+		try {
+			parseAndReplaceId(document);
+		} finally {
+			cleanupConnection();
+		}
 		return getCollection(collectionName).save(document);
+
 	}
 
 	// TODO bessere Lösung finden
@@ -46,19 +52,25 @@ public class MogoBase {
 		DBCursor result = null;
 		try {
 			result = getCollection(collectionName).find();
+			return result.toArray();
 		} finally {
 			if (result != null) {
 				result.close();
 			}
+			cleanupConnection();
 		}
-		return result.toArray();
 
 	}
 
 	public DBObject getOneByIdInCollection(final String collectionName,
 			String id) throws UnknownHostException {
-		BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
-		DBObject result = getCollection(collectionName).findOne(query);
+		DBObject result;
+		try {
+			BasicDBObject query = new BasicDBObject("_id", new ObjectId(id));
+			result = getCollection(collectionName).findOne(query);
+		} finally {
+			cleanupConnection();
+		}
 		return result;
 	}
 
@@ -69,10 +81,17 @@ public class MogoBase {
 	}
 
 	private DB getConnection() throws UnknownHostException {
-		MongoClient client = new MongoClient("localhost", 27017);
+		client = new MongoClient("localhost", 27017);
 		DB db = client.getDB("test");
 		// boolean auth = db.authenticate("username", "password".toCharArray());
 		return db;
+	}
+
+	private void cleanupConnection() {
+		if (client != null) {
+			client.close();
+		}
+
 	}
 
 }
