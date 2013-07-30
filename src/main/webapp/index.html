@@ -1,26 +1,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet" type="text/css">
     <title>HowTo-Test</title>
 </head>
 <body>
 
-<div class="container-fluid" id="all">
-    <div class="row-fluid">
-        <div id="side" class="span2">
-            <!--Sidebar content-->
-            <li><a href="/">Home</a></li>
-            <li><a href="add">Add</a></li>
-            <li><a href="login">Login with Facebook</a></li>
+<div class="navbar">
+    <div class="container">
+
+        <a class="navbar-brand" href="#">Horse-B</a>
+
+        <div class="nav-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#add">Add</a></li>
+                <li><a href="#login">Login with Facebook</a></li>
+            </ul>
         </div>
-        <div id="main" class="span10">
-            <!--Body content-->
-        </div>
+        <!--/.nav-collapse -->
     </div>
 </div>
+
+<div id="main" class="container">
+
+
+</div>
+
 
 <script type="text/template" id="template-Schritt">
     <h3 id="schrittTitel"><%- schrittTitel %></h3>
@@ -48,22 +56,20 @@
 </script>
 
 <script type="text/template" id="template-TitelEdit">
-    <div class="span12">
+    <div class="form-group">
         <label for="haupttitel">Titel:</label>
-        <input type="text" class="span4" id="haupttitel" value="<%- haupttitel %>">
+        <input type="text" class="form-control" id="haupttitel" value="<%- haupttitel %>">
     </div>
-    <div>
+    <div class="form-group">
         <label for="untertitel">Untertitel:</label>
-        <input type="text" class="span8" id="untertitel" value="<%- untertitel %>">
+        <input type="text" class="form-control" id="untertitel" value="<%- untertitel %>">
     </div>
-    <div class="span12">
-        <input type="button" id="speichern" value="Speichern">
-    </div>
-    <div class="span12">
-        <input type="button" id="addMaterial" value="Material hinzufügen">
-    </div>
-    <div class="span12">
-        <input type="button" id="addSchritt" value="Schritt hinzufügen">
+    <div class="col-lg-12">
+        <input type="button" class="btn btn-success" id="speichern" value="Speichern">
+
+        <input type="button" class="btn btn-default" id="addMaterial" value="Material hinzufügen">
+
+        <input type="button" class="btn btn-default" id="addSchritt" value="Schritt hinzufügen">
     </div>
     <table class="table table-striped" id="materialContainer"></table>
     <div id="schrittContainer"></div>
@@ -71,82 +77,98 @@
 
 
 <script type="text/template" id="template-MaterialListEdit">
-        <td><%- beschreibung %></td>
-        <td><%- url %></td>
-        <td><input type="button" id="editMaterial" value="Editieren"></td>
-        <td><input type="button" id="removeMaterial" value="Löschen"></td>
+    <td><%- beschreibung %></td>
+    <td><%- url %></td>
+    <td><input type="button" id="editMaterial" value="Editieren"></td>
+    <td><input type="button" id="removeMaterial" value="Löschen"></td>
 </script>
 
 <script type="text/template" id="template-MaterialEdit">
-    <div id="materialEditModal" class="modal hide fade" tabindex="-1" role="dialog" data-keyboard="false">
-        <div class="modal-header">
-            <h3 id="myModalLabel">Material</h3>
-        </div>
-        <div class="modal-body">
-            <label>Beschreibung</label>
-            <input type="text" id="matBeschreibung" value="<%- beschreibung %>">
+    <div id="materialEditModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="myModalLabel">Material</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="matBeschreibung">Beschreibung</label>
+                        <input type="text" class="form-control" id="matBeschreibung" value="<%- beschreibung %>">
+                    </div>
 
-            <label>URL</label>
-            <input type="text" id="matURL" value="<%- url %>">
-        </div>
-        <div class="modal-footer">
-            <button id="delete" class="btn">Löschen</button>
-            <button id="saveMaterial" class="btn btn-primary">Speichern</button>
+                    <div class="form-group">
+                        <label for="matURL">URL</label>
+                        <input type="text" class="form-control" id="matURL" value="<%- url %>">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="delete" class="btn btn-danger">Löschen</button>
+                    <button id="saveMaterial" class="btn btn-primary">Speichern</button>
+                </div>
+            </div>
         </div>
     </div>
 </script>
 
 <script type="text/template" id="template-SchrittEdit">
 
-    <div id="schrittEditModal" class="modal container hide fade" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
-        <div class="modal-header">
-            <label for="schrittTitelIn">Titel:</label> <input class="span8"
-                                                              type="text" id="schrittTitelIn"
-                                                              value="<%- schrittTitel %>">
-        </div>
-        <div class="modal-body">
-            <label for="schritt-textarea">Beschreibung:</label>
+    <div class="modal" id="schrittEditModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label for="schrittTitelIn">Titel:</label> <input
+                        type="text" class="col-lg-12" id="schrittTitelIn"
+                        value="<%- schrittTitel %>">
+                </div>
+                <div class="modal-body">
+                    <label for="schritt-textarea">Beschreibung:</label>
 
-            <div class="btn-group dropdown">
-                <button class="btn">Material</button>
-                <button class="btn dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul id="materialUseList" class="dropdown-menu">
-                    <!--render Material template-materialUseEntry -->
-                </ul>
+                    <div id="toolbar" class="col-lg-12" style="display: none;">
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default">Material</button>
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="materialUseList" class="dropdown-menu">
+                                <!--render Material template-materialUseEntry -->
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default" data-wysihtml5-command="bold">bold</a>
+                            <a class="btn btn-default" data-wysihtml5-command="italic">italic</a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default" data-wysihtml5-command="foreColor"
+                               data-wysihtml5-command-value="red">red</a>
+                            <a class="btn btn-default" data-wysihtml5-command="foreColor"
+                               data-wysihtml5-command-value="green">green</a>
+                            <a class="btn btn-default" data-wysihtml5-command="foreColor"
+                               data-wysihtml5-command-value="blue">blue</a>
+                        </div>
+                        <div class="btn-group">
+                            <a class="btn btn-default" data-wysihtml5-command="createLink">insert link</a>
+
+                            <div data-wysihtml5-dialog="createLink" style="display: none;">
+                                <label>
+                                    Link:
+                                    <input data-wysihtml5-dialog-field="href" value="http://" class="text">
+                                </label>
+                                <a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form>
+                        <textarea class="col-lg-12" id="schritt-textarea" rows=10
+                                  placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="deleteSchritt">Schritt verwerfen</button>
+                    <button class="btn btn-success" id="saveSchritt">Schritt speichern</button>
+                </div>
             </div>
-
-            <div id="toolbar" style="display: none;">
-                <div class="btn-group">
-                <a class="btn" data-wysihtml5-command="bold">bold</a>
-                <a class="btn" data-wysihtml5-command="italic">italic</a>
-                </div>
-                <div class="btn-group">
-                <a class="btn" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="red">red</a>
-                <a class="btn" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="green">green</a>
-                <a class="btn" data-wysihtml5-command="foreColor" data-wysihtml5-command-value="blue">blue</a>
-                </div>
-                <div class="btn-group">
-                <a class="btn" data-wysihtml5-command="createLink">insert link</a>
-                <div data-wysihtml5-dialog="createLink" style="display: none;">
-                    <label>
-                        Link:
-                        <input data-wysihtml5-dialog-field="href" value="http://" class="text">
-                    </label>
-                    <a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancel</a>
-                </div>
-                </div>
-            </div>
-
-              <form>
-            <textarea id="schritt-textarea" class="span8" rows=10
-                      placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
-              </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" id="deleteSchritt">Schritt verwerfen</button>
-            <button class="btn btn-primary" id="saveSchritt">Schritt speichern</button>
         </div>
     </div>
 </script>

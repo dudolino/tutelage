@@ -23,12 +23,16 @@ var SchrittEditView = Backbone.View.extend({
 			schrittTitel : t,
 			beschreibung : b
 		});
-		this.$el.find('#schrittEditModal').modal('hide');
+        var dialog= this.$el.find('#schrittEditModal');
+        dialog.modal('hide');
+        dialog.trigger('hidden');
 	},
 
 	deleteModel : function() {
 		this.model.destroy();
-		this.$el.find('#schrittEditModal').modal('hide');
+		var dialog= this.$el.find('#schrittEditModal');
+        dialog.modal('hide');
+        dialog.trigger('hidden');
 	},
 
 	render : function() {
@@ -123,19 +127,19 @@ var MaterialEditView = Backbone.View.extend({
 	saveMaterial : function() {
 		var bes = this.$el.find('#matBeschreibung').val();
 		var url = this.$el.find('#matURL').val();
-
 		this.model.set({
 			beschreibung : bes,
 			url : url
 		});
 		var dialog = this.$el.find('#materialEditModal');
 		dialog.modal('hide');
+        dialog.trigger('hidden'); // TODO bootstrap bug
 	},
 
 	deleteMaterial : function() {
 		this.model.destroy();
 		var dialog = this.$el.find('#materialEditModal').modal('hide');
-		dialog.modal('hide');
+        dialog.trigger('hidden');
 	},
 
 	render : function() {
@@ -205,6 +209,7 @@ var AnleitungEditView = Backbone.View.extend({
 		modal.modal('show');
 		var self = this;
 		modal.on('hidden', function() {
+            console.log("Hier");
 			modal.remove();
 			self.renderMaterial();
 		});
