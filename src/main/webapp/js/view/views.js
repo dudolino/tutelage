@@ -96,7 +96,9 @@ var AnleitungView = Backbone.View.extend({
 
 var AnleitungListViewItem = Backbone.View.extend({
 
-    tagName: "li",
+    tagName: "div",
+
+    className: "well well-small",
 
     templateList: _.template($('#template-AnleitungList').html()),
 
