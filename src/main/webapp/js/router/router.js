@@ -20,10 +20,10 @@ var App = Backbone.Router.extend({
 	routes : {
 		'' : 'home',
 		'add' : 'add',
-		'edit/:id' : 'edit',
-		'show/:id' : 'show',
+		'edit/:aid' : 'edit',
+		'show/:aid' : 'show',
 		'login' : 'login',
-		'auth?code=:code' : 'auth',
+		'auth?code=:code' : 'auth'
 	},
 
 	view : null,
@@ -62,13 +62,13 @@ var App = Backbone.Router.extend({
 
 	},
 
-	show : function(id) {
-		var a = new Anleitung({
-			id : id
-		});
-		a.fetch();
+	show : function(aid) {
+        var anleitung = Anleitung.findOrCreate({
+            id : aid
+        });
+
 		this.switchView(new AnleitungView({
-			model : a
+			model : anleitung
 		}));
 	},
 
@@ -78,7 +78,7 @@ var App = Backbone.Router.extend({
 		}
 		console.log("edit called");
 		var anleitung = Anleitung.findOrCreate({
-			id : aid,
+			id : aid
 		});
 		this.switchView(new AnleitungEditView({
 			model : anleitung
@@ -121,6 +121,6 @@ var App = Backbone.Router.extend({
 			console.log("bla");
 		}
 
-	},
+	}
 
 });
