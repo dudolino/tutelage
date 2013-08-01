@@ -12,7 +12,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -27,7 +26,7 @@ public class AnleitungService {
 
 	@GET
 	@Path("/anleitungen")
-	@Produces("application/json")
+	@Produces("application/json; charset=UTF-8")
 	public String getAnleitungen() {
 		System.out.println("Called getAnleitung");
 		MogoBase mongo = new MogoBase();
@@ -43,13 +42,14 @@ public class AnleitungService {
 
 	@GET
 	@Path("/anleitungen/{id}")
-	@Produces("application/json")
+	@Produces("application/json; charset=UTF-8")
 	public String getAnleitung(@PathParam("id") String id) {
 		System.out.println("Called getAnleitung by Id " + id);
 		MogoBase mongo = new MogoBase();
 		DBObject result = null;
 		try {
 			result = mongo.getOneByIdInCollection(COLLECTION_ANLEITUNGEN, id);
+			System.out.println("Return anleitung: " + result.toString());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,8 +60,8 @@ public class AnleitungService {
 	@POST
 	@PUT
 	@Path("/anleitungen")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
 	public String createAnleitung(Object o) {
 		System.out.println("createAnleitung called");
 		return updateOrCreateAnleitung(o);
@@ -70,8 +70,8 @@ public class AnleitungService {
 	@POST
 	@PUT
 	@Path("/anleitungen/{id}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes("application/json; charset=UTF-8")
+	@Produces("application/json; charset=UTF-8")
 	public String updateAnleitung(@PathParam("id") String id, Object o) {
 		System.out.println("updateAnleitung called with " + id);
 		return updateOrCreateAnleitung(o);
@@ -99,6 +99,7 @@ public class AnleitungService {
 		try {
 			result = mongo.insertOrUpdateDocumentInCollection(b,
 					COLLECTION_ANLEITUNGEN);
+			System.out.println("insert or update " + b.toString());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

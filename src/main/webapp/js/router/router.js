@@ -63,9 +63,9 @@ var App = Backbone.Router.extend({
 	},
 
 	show : function(aid) {
-        var anleitung = Anleitung.findOrCreate({
-            id : aid
-        });
+		var anleitung = Anleitung.findOrCreate({
+			id : aid
+		});
 
 		this.switchView(new AnleitungView({
 			model : anleitung
@@ -86,7 +86,7 @@ var App = Backbone.Router.extend({
 	},
 
 	add : function() {
-		// var app = this;
+
 		var a = new Anleitung();
 
 		// this.anleitungen.add(a);

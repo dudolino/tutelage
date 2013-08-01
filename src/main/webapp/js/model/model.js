@@ -72,8 +72,6 @@ var Anleitung = Backbone.RelationalModel.extend({
 
 	defaults : {
 
-		id : '',
-
 		haupttitel : 'Haupttitel',
 
 		untertitel : 'Untertitel',

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet" type="text/css">
@@ -24,17 +24,14 @@
                 <ul class="dropdown-menu">
                 </ul>
             </li>
-            <li>
-                <form class="navbar-form">
+            <li><form class="navbar-form">
                     <input type="text" class="form-control" style="width: 200px;" placeholder="Suchbegriff">
                     <button type="submit" class="btn btn-default">Suchen</button>
-                </form>
-            </li>
-        </ul>
-
-        <ul class="nav navbar-nav pull-right">
+                </form></li>
             <li><a href="#login">Login</a></li>
         </ul>
+
+       
     </div>
     <!--/.nav-collapse -->
 </div>
@@ -81,14 +78,14 @@
     </div>
     <div class="form-group">
         <label for="untertitel">Untertitel:</label>
-        <input type="text" class="form-control" id="untertitel" value="<%- untertitel %>">
+        <input type="text" charset="ISO" class="form-control" id="untertitel" value="<%- untertitel %>">
     </div>
     <div class="col-lg-12">
         <input type="button" class="btn btn-success" id="speichern" value="Speichern">
 
-        <input type="button" class="btn btn-default" id="addMaterial" value="Material hinzuf�gen">
+        <input type="button" class="btn btn-default" id="addMaterial" value="Material hinzufügen">
 
-        <input type="button" class="btn btn-default" id="addSchritt" value="Schritt hinzuf�gen">
+        <input type="button" class="btn btn-default" id="addSchritt" value="Schritt hinzufügen">
     </div>
     <table class="table table-striped" id="materialContainer"></table>
     <div id="schrittContainer"></div>
@@ -99,7 +96,7 @@
     <td><%- beschreibung %></td>
     <td><%- url %></td>
     <td><input type="button" id="editMaterial" value="Editieren"></td>
-    <td><input type="button" id="removeMaterial" value="L�schen"></td>
+    <td><input type="button" id="removeMaterial" value="Löschen"></td>
 </script>
 
 <script type="text/template" id="template-MaterialEdit">
@@ -122,7 +119,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button id="delete" class="btn btn-danger">L�schen</button>
+                    <button id="delete" class="btn btn-danger">Löschen</button>
                     <button id="saveMaterial" class="btn btn-primary">Speichern</button>
                 </div>
             </div>
@@ -180,7 +177,7 @@
 
                     <form>
                         <textarea class="col-lg-12" id="schritt-textarea" rows=10
-                                  placeholder="Beschreibung einf�gen ..." autofocus><%- beschreibung %></textarea>
+                                  placeholder="Beschreibung einfï¿½gen ..." autofocus><%- beschreibung %></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">
