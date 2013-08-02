@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap-wysihtml5-0.0.2.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap-glyphicons.css" rel="stylesheet" type="text/css">
     <title>HowTo-Test</title>
 </head>
 <body>
@@ -24,18 +25,19 @@
                 <ul class="dropdown-menu">
                 </ul>
             </li>
-            <li><form class="navbar-form">
+            <li>
+                <form class="navbar-form">
                     <input type="text" class="form-control" style="width: 200px;" placeholder="Suchbegriff">
                     <button type="submit" class="btn btn-default">Suchen</button>
-                </form></li>
+                </form>
+            </li>
             <li><a href="#login">Login</a></li>
         </ul>
 
-       
+
     </div>
     <!--/.nav-collapse -->
 </div>
-
 <div id="main" class="container">
 
 
@@ -95,8 +97,8 @@
 <script type="text/template" id="template-MaterialListEdit">
     <td><%- beschreibung %></td>
     <td><%- url %></td>
-    <td><input type="button" id="editMaterial" value="Editieren"></td>
-    <td><input type="button" id="removeMaterial" value="Löschen"></td>
+    <td><input type="button" class="btn btn-default" id="editMaterial" value="Editieren"></td>
+    <td><input type="button" class="btn btn-danger" id="removeMaterial" value="Löschen"></td>
 </script>
 
 <script type="text/template" id="template-MaterialEdit">
@@ -138,46 +140,67 @@
                         value="<%- schrittTitel %>">
                 </div>
                 <div class="modal-body">
-                    <label for="schritt-textarea">Beschreibung:</label>
+                    <label for="schritt-textarea">Beschreibung</label>
 
-                    <div id="toolbar" class="col-lg-12" style="display: none;">
-                        <div class="btn-group dropdown">
-                            <button class="btn btn-default">Material</button>
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                            </button>
-                            <ul id="materialUseList" class="dropdown-menu">
-                                <!--render Material template-materialUseEntry -->
-                            </ul>
-                        </div>
-                        <div class="btn-group">
-                            <a class="btn btn-default" data-wysihtml5-command="bold">bold</a>
-                            <a class="btn btn-default" data-wysihtml5-command="italic">italic</a>
-                        </div>
-                        <div class="btn-group">
-                            <a class="btn btn-default" data-wysihtml5-command="foreColor"
-                               data-wysihtml5-command-value="red">red</a>
-                            <a class="btn btn-default" data-wysihtml5-command="foreColor"
-                               data-wysihtml5-command-value="green">green</a>
-                            <a class="btn btn-default" data-wysihtml5-command="foreColor"
-                               data-wysihtml5-command-value="blue">blue</a>
-                        </div>
-                        <div class="btn-group">
-                            <a class="btn btn-default" data-wysihtml5-command="createLink">insert link</a>
+                    <div id="toolbar">
+                        <div class="btn-toolbar">
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-wysihtml5-command="bold"><span
+                                        class="glyphicon glyphicon-bold"></span></a>
+                                <a class="btn btn-default" data-wysihtml5-command="italic"><span
+                                        class="glyphicon glyphicon-italic"></span></a>
+                                <a class="btn btn-default" data-wysihtml5-command="underline"><span
+                                        class="glyphicon glyphicon-italic"></span></a>
 
-                            <div data-wysihtml5-dialog="createLink" style="display: none;">
-                                <label>
-                                    Link:
-                                    <input data-wysihtml5-dialog-field="href" value="http://" class="text">
-                                </label>
-                                <a data-wysihtml5-dialog-action="save">OK</a> <a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-wysihtml5-command="insertOrderedList"><span
+                                        class="glyphicon glyphicon-list"></span></a>
+                                <a class="btn btn-default" data-wysihtml5-command="insertUnorderedList"><span
+                                        class="glyphicon glyphicon-list"></span></a>
+                            </div>
+                            <div class="btn-group">
+
+                                <a class="btn btn-default" data-wysihtml5-command="insertImage"><span
+                                        class="glyphicon glyphicon-picture"></span></a>
+
+                                <div data-wysihtml5-dialog="insertImage" style="display: none;">
+                                    <label>
+                                        Image:
+                                        <input data-wysihtml5-dialog-field="src" value="http://">
+                                    </label>
+                                    <a data-wysihtml5-dialog-action="save">OK</a>
+                                    <a data-wysihtml5-dialog-action="cancel">Cancel</a>
+                                </div>
+
+
+                                <a class="btn btn-default" data-wysihtml5-command="createLink"><span
+                                        class="glyphicon glyphicon-share"></span></a>
+
+                                <div data-wysihtml5-dialog="createLink" style="display: none;">
+                                    <label>
+                                        Link:
+                                        <input data-wysihtml5-dialog-field="href" value="http://" class="text">
+                                    </label>
+                                    <a data-wysihtml5-dialog-action="save">OK</a> <a
+                                        data-wysihtml5-dialog-action="cancel">Cancel</a>
+                                </div>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-wrench"></span> <span
+                                        class="caret"></span>
+                                </button>
+                                <ul id="materialUseList" class="dropdown-menu">
+                                    <!--render Material template-materialUseEntry -->
+                                </ul>
                             </div>
                         </div>
                     </div>
-
                     <form>
                         <textarea class="col-lg-12" id="schritt-textarea" rows=10
-                                  placeholder="Beschreibung einfï¿½gen ..." autofocus><%- beschreibung %></textarea>
+                                  placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">

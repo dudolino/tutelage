@@ -60,7 +60,7 @@ public class AnleitungService {
 	@POST
 	@PUT
 	@Path("/anleitungen")
-	@Consumes("application/json; charset=UTF-8")
+	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	public String createAnleitung(Object o) {
 		System.out.println("createAnleitung called");
@@ -70,7 +70,7 @@ public class AnleitungService {
 	@POST
 	@PUT
 	@Path("/anleitungen/{id}")
-	@Consumes("application/json; charset=UTF-8")
+	@Consumes("application/json")
 	@Produces("application/json; charset=UTF-8")
 	public String updateAnleitung(@PathParam("id") String id, Object o) {
 		System.out.println("updateAnleitung called with " + id);
