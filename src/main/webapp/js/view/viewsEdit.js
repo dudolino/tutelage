@@ -67,10 +67,11 @@ var SchrittEditView = Backbone.View.extend({
 			beschreibung : arguments[0].currentTarget.name
 		});
 		this.editor.composer.commands.exec("createLink", {
-			id : selectedMaterial.get('beschreibung'),
+			id : "openMaterialLink",
 			text : selectedMaterial.get('beschreibung'),
 			name : selectedMaterial.get('beschreibung'),
-			href : selectedMaterial.get('url')
+            title: selectedMaterial.get('beschreibung'),
+			href : "javascript:;"
 		});
 	}
 
@@ -229,7 +230,8 @@ var AnleitungEditView = Backbone.View.extend({
 		if (this.schritte.length) {
 			this.schritte.each(function(schritt) {
 				var view = new SchrittView({
-					model : schritt
+					model : schritt,
+                    material : this.material
 				});
 				area.append(view.render().el);
 			}, this);

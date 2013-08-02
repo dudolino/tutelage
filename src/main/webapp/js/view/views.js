@@ -2,10 +2,28 @@ var SchrittView = Backbone.View.extend({
 
 	template : _.template($('#template-Schritt').html()),
 
+    initialize : function(attrs) {
+        this.material = attrs.material;
+    },
+
+    events : {
+        'click #openMaterialLink' : 'openMaterialLink'
+    },
+
+    openMaterialLink: function(){
+        console.log("doSomething");
+        var selectedMaterial = this.material.findWhere({
+            beschreibung : arguments[0].currentTarget.name
+        });
+        window.open(selectedMaterial.get('url'), '_blank');
+    },
+
 	render : function() {
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
 	}
+
+
 });
 
 var SchritteView = Backbone.View.extend({
