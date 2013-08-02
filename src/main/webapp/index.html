@@ -106,7 +106,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 id="myModalLabel">Material</h3>
+                    <h3>Material</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -135,15 +135,20 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <label for="schrittTitelIn">Titel:</label> <input
-                        type="text" class="col-lg-12" id="schrittTitelIn"
-                        value="<%- schrittTitel %>">
+
+                    <div class="form-group">
+                        <label for="schrittTitelIn">Titel:</label>
+                        <input type="text" id="schrittTitelIn" class="form-control" value="<%- schrittTitel %>">
+                    </div>
+
+
                 </div>
                 <div class="modal-body">
-                    <label for="schritt-textarea">Beschreibung</label>
+                    <div class="form-group">
+                        <label for="schritt-textarea">Beschreibung</label>
 
-                    <div id="toolbar">
-                        <div class="btn-toolbar">
+                        <div id="toolbar" class="btn-toolbar">
+
                             <div class="btn-group">
                                 <a class="btn btn-default" data-wysihtml5-command="bold"><span
                                         class="glyphicon glyphicon-bold"></span></a>
@@ -164,27 +169,11 @@
                                 <a class="btn btn-default" data-wysihtml5-command="insertImage"><span
                                         class="glyphicon glyphicon-picture"></span></a>
 
-                                <div data-wysihtml5-dialog="insertImage" style="display: none;">
-                                    <label>
-                                        Image:
-                                        <input data-wysihtml5-dialog-field="src" value="http://">
-                                    </label>
-                                    <a data-wysihtml5-dialog-action="save">OK</a>
-                                    <a data-wysihtml5-dialog-action="cancel">Cancel</a>
-                                </div>
-
 
                                 <a class="btn btn-default" data-wysihtml5-command="createLink"><span
                                         class="glyphicon glyphicon-share"></span></a>
 
-                                <div data-wysihtml5-dialog="createLink" style="display: none;">
-                                    <label>
-                                        Link:
-                                        <input data-wysihtml5-dialog-field="href" value="http://" class="text">
-                                    </label>
-                                    <a data-wysihtml5-dialog-action="save">OK</a> <a
-                                        data-wysihtml5-dialog-action="cancel">Cancel</a>
-                                </div>
+
                             </div>
 
                             <div class="btn-group">
@@ -196,13 +185,32 @@
                                     <!--render Material template-materialUseEntry -->
                                 </ul>
                             </div>
+                            <div class="btn-group">
+                                <div data-wysihtml5-dialog="insertImage" style="display: none;">
+                                    <input data-wysihtml5-dialog-field="src" value="http://">
+                                    <a class="btn btn-success btn-small" data-wysihtml5-dialog-action="save">OK</a>
+                                    <a class="btn btn-danger btn-small"
+                                       data-wysihtml5-dialog-action="cancel">Verwerfen</a>
+                                </div>
+
+                                <div data-wysihtml5-dialog="createLink" style="display: none;">
+                                    <input data-wysihtml5-dialog-field="href" value="http://" class="text">
+                                    <a class="btn btn-success btn-small" data-wysihtml5-dialog-action="save">OK</a>
+                                    <a class="btn btn-danger btn-small"
+                                       data-wysihtml5-dialog-action="cancel">Verwerfen</a>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <form>
-                        <textarea class="col-lg-12" id="schritt-textarea" rows=10
+
+
+                        <textarea class="form-control" id="schritt-textarea" rows=15
                                   placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
-                    </form>
+
+
+                    </div>
                 </div>
+
                 <div class="modal-footer">
                     <button class="btn btn-danger" id="deleteSchritt">Schritt verwerfen</button>
                     <button class="btn btn-success" id="saveSchritt">Schritt speichern</button>
