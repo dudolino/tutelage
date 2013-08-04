@@ -23,16 +23,16 @@ var SchrittEditView = Backbone.View.extend({
 			schrittTitel : t,
 			beschreibung : b
 		});
-        var dialog= this.$el.find('#schrittEditModal');
-        dialog.modal('hide');
-        dialog.trigger('hidden');
+		var dialog = this.$el.find('#schrittEditModal');
+		dialog.modal('hide');
+		dialog.trigger('hidden');
 	},
 
 	deleteModel : function() {
 		this.model.destroy();
-		var dialog= this.$el.find('#schrittEditModal');
-        dialog.modal('hide');
-        dialog.trigger('hidden');
+		var dialog = this.$el.find('#schrittEditModal');
+		dialog.modal('hide');
+		dialog.trigger('hidden');
 	},
 
 	render : function() {
@@ -69,8 +69,8 @@ var SchrittEditView = Backbone.View.extend({
 		this.editor.composer.commands.exec("createLink", {
 			id : "openMaterialLink",
 			text : selectedMaterial.get('beschreibung'),
-			name : selectedMaterial.get('beschreibung'),
-            title: selectedMaterial.get('beschreibung'),
+			name : selectedMaterial.get('number'),
+			title : selectedMaterial.get('url'),
 			href : "javascript:;"
 		});
 	}
@@ -134,13 +134,13 @@ var MaterialEditView = Backbone.View.extend({
 		});
 		var dialog = this.$el.find('#materialEditModal');
 		dialog.modal('hide');
-        dialog.trigger('hidden'); // TODO bootstrap bug
+		dialog.trigger('hidden'); // TODO bootstrap bug
 	},
 
 	deleteMaterial : function() {
 		this.model.destroy();
 		var dialog = this.$el.find('#materialEditModal').modal('hide');
-        dialog.trigger('hidden');
+		dialog.trigger('hidden');
 	},
 
 	render : function() {
@@ -201,6 +201,9 @@ var AnleitungEditView = Backbone.View.extend({
 
 	addMaterial : function() {
 		var mat = new Material();
+		mat.set({
+			'number' : this.getNextMaterialNumber()
+		});
 		var materialEdit = new MaterialEditView({
 			model : mat
 		});
@@ -210,10 +213,22 @@ var AnleitungEditView = Backbone.View.extend({
 		modal.modal('show');
 		var self = this;
 		modal.on('hidden', function() {
-            console.log("Hier");
+			console.log("Hier");
 			modal.remove();
 			self.renderMaterial();
 		});
+	},
+
+	getNextMaterialNumber : function() {
+		var actualNumber = 0;
+		if (this.material.length) {
+			this.material.each(function(material) {
+				if (material.get('number') > actualNumber) {
+					actualNumber = material.get('number');
+				}
+			}, this);
+		}
+		return actualNumber + 1;
 	},
 
 	render : function() {
@@ -231,7 +246,7 @@ var AnleitungEditView = Backbone.View.extend({
 			this.schritte.each(function(schritt) {
 				var view = new SchrittView({
 					model : schritt,
-                    material : this.material
+					material : this.material
 				});
 				area.append(view.render().el);
 			}, this);

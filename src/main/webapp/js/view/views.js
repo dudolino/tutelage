@@ -2,42 +2,27 @@ var SchrittView = Backbone.View.extend({
 
 	template : _.template($('#template-Schritt').html()),
 
-    initialize : function(attrs) {
-        this.material = attrs.material;
-    },
+	initialize : function(attrs) {
+		this.material = attrs.material;
+	},
 
-    events : {
-        'click #openMaterialLink' : 'openMaterialLink'
-    },
+	events : {
+		'click #openMaterialLink' : 'openMaterialLink'
+	},
 
-    openMaterialLink: function(){
-        console.log("doSomething");
-        var selectedMaterial = this.material.findWhere({
-            beschreibung : arguments[0].currentTarget.name
-        });
-        window.open(selectedMaterial.get('url'), '_blank');
-    },
+	openMaterialLink : function() {
+		var numberToInt = parseInt(arguments[0].currentTarget.name);
+		var selectedMaterial = this.material.findWhere({
+			number : numberToInt
+		});
+		window.open(selectedMaterial.get('url'), '_blank');
+	},
 
 	render : function() {
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
 	}
 
-
-});
-
-var SchritteView = Backbone.View.extend({
-
-	render : function() {
-		if (this.model.length) {
-			this.model.each(function(schritt) {
-				this.$el.append(new SchrittView({
-					model : schritt
-				}).render().el);
-			}, this);
-			return this;
-		}
-	}
 });
 
 var MaterialView = Backbone.View.extend({
@@ -87,7 +72,8 @@ var AnleitungView = Backbone.View.extend({
 		if (schritte.length) {
 			schritte.each(function(schritt) {
 				this.$el.append(new SchrittView({
-					model : schritt
+					model : schritt,
+					material : this.model.get('material')
 				}).render().el);
 			}, this);
 		}
