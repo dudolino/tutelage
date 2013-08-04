@@ -240,6 +240,7 @@ var AnleitungEditView = Backbone.View.extend({
 	},
 
 	renderSchritte : function() {
+		console.log("renderSchritte");
 		var area = this.$el.find('#schrittContainer');
 		area.empty();
 		if (this.schritte.length) {
@@ -270,3 +271,21 @@ var AnleitungEditView = Backbone.View.extend({
 	}
 
 });
+
+var editUtils = {
+	replaceMaterialLinks : function(materialList) {
+		// var all = [];
+		$("a[id=openMaterialLink]").each(function() {
+			numberToInt = parseInt(this.name);
+			var material = materialList.findWhere({
+				number : numberToInt
+			});
+			if (material) {
+				this.title = material.get('url');
+				$(this).text(material.get('beschreibung'));
+			}
+
+		});
+
+	}
+};

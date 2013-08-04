@@ -74,6 +74,7 @@
 </script>
 
 <script type="text/template" id="template-TitelEdit">
+<div class="row">
     <div class="form-group">
         <label for="haupttitel">Titel:</label>
         <input type="text" class="form-control" id="haupttitel" value="<%- haupttitel %>">
@@ -82,6 +83,8 @@
         <label for="untertitel">Untertitel:</label>
         <input type="text" charset="ISO" class="form-control" id="untertitel" value="<%- untertitel %>">
     </div>
+</div>
+<div class="row">
     <div class="col-lg-12">
         <input type="button" class="btn btn-success" id="speichern" value="Speichern">
 
@@ -89,16 +92,21 @@
 
         <input type="button" class="btn btn-default" id="addSchritt" value="Schritt hinzufügen">
     </div>
+</div>
+<div class="row">
     <table class="table table-striped" id="materialContainer"></table>
-    <div id="schrittContainer"></div>
+</div>
+<div class="row" id="schrittContainer">
+</div>
+
 </script>
 
 
 <script type="text/template" id="template-MaterialListEdit">
     <td><%- beschreibung %></td>
     <td><%- url %></td>
-    <td><input type="button" class="btn btn-default" id="editMaterial" value="Editieren"></td>
-    <td><input type="button" class="btn btn-danger" id="removeMaterial" value="Löschen"></td>
+    <td><input type="button" class="btn btn-small btn-default" id="editMaterial" value="Editieren"></td>
+    <td><input type="button" class="btn btn-small btn-danger" id="removeMaterial" value="Löschen"></td>
 </script>
 
 <script type="text/template" id="template-MaterialEdit">
