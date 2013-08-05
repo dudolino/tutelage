@@ -137,6 +137,20 @@
     </div>
 </script>
 
+<script type="text/template" id="template-SchrittListEdit">
+    <div class="well">
+        <h3 id="schrittTitel"><%- schrittTitel %></h3>
+
+        <p id="beschreibung"><%= beschreibung %></p>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-8">
+                <button id="deleteSchritt" class="btn btn-small btn-danger">Löschen</button>
+                <button id="editSchritt" class="btn btn-small btn-default">Bearbeiten</button>
+            </div>
+        </div>
+    </div>
+</script>
+
 <script type="text/template" id="template-SchrittEdit">
 
     <div class="modal" id="schrittEditModal">
@@ -213,7 +227,7 @@
 
 
                         <textarea class="form-control" id="schritt-textarea" rows=15
-                                  placeholder="Beschreibung einfügen ..." autofocus><%- beschreibung %></textarea>
+                                  placeholder="Beschreibung einfügen ..." autofocus><%= beschreibung %></textarea>
 
 
                     </div>

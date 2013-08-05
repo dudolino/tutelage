@@ -25,14 +25,14 @@ var SchrittEditView = Backbone.View.extend({
         });
         var dialog = this.$el.find('#schrittEditModal');
         dialog.modal('hide');
-        dialog.trigger('hidden');
+        dialog.trigger('hidden');  // TODO
     },
 
     deleteModel: function () {
         this.model.destroy();
         var dialog = this.$el.find('#schrittEditModal');
         dialog.modal('hide');
-        dialog.trigger('hidden');
+        dialog.trigger('hidden');   // TODO
     },
 
     render: function () {
@@ -78,9 +78,39 @@ var SchrittEditView = Backbone.View.extend({
 });
 
 var SchrittListEditView = SchrittView.extend({
+
+    template: _.template($('#template-SchrittListEdit').html()),
+
     initialize: function (attrs) {
         this.material = attrs.material;
         Backbone.on("materialChanged", this.replaceMaterialLinks, this)
+    },
+
+    events: {
+        'click #deleteSchritt': 'delete',
+        'click #editSchritt': 'edit'
+
+    },
+
+    delete: function () {
+        this.model.destroy();
+        this.$el.html("");
+    },
+
+    edit: function () {
+        var schrittEditView = new SchrittEditView({
+            model: this.model,
+            material: this.material
+        });
+        this.$el.append(schrittEditView.render().el);
+        schrittEditView.createTextarea();
+        var modal = this.$el.find('#schrittEditModal');
+        modal.modal('show');
+        var self = this;
+        modal.on('hidden', function () {
+            modal.remove();
+            self.$el.html(self.template(self.model.toJSON()));
+        });
     },
 
     replaceMaterialLinks: function () {
@@ -89,7 +119,6 @@ var SchrittListEditView = SchrittView.extend({
         materialList = this.material;
         var links = this.$el.find("a[id=openMaterialLink]");
         links.each(function () {
-            console.log("found item");
             numberToInt = parseInt(this.name);
             var material = materialList.findWhere({
                 number: numberToInt
@@ -204,9 +233,9 @@ var AnleitungEditView = Backbone.View.extend({
         // this.material.on("add", this.renderMaterial, this);
         // this.material.on("change", this.renderMaterial, this);
         // this.material.on("destroy", this.renderMaterial, this);
-        this.schritte.on("add", this.renderSchritte, this);
-        this.schritte.on("change", this.renderSchritte, this);
-        this.schritte.on("destroy", this.renderSchritte, this);
+        //this.schritte.on("add", this.renderSchritte, this);
+        //this.schritte.on("change", this.renderSchritte, this);
+        //this.schritte.on("destroy", this.renderSchritte, this);
     },
 
     events: {
@@ -237,8 +266,11 @@ var AnleitungEditView = Backbone.View.extend({
         view.createTextarea();
         var modal = this.$el.find('#schrittEditModal');
         modal.modal('show');
+        var self = this;
         modal.on('hidden', function () {
             modal.remove();
+            self.renderSchritte();
+
         });
     },
 
@@ -256,7 +288,6 @@ var AnleitungEditView = Backbone.View.extend({
         modal.modal('show');
         var self = this;
         modal.on('hidden', function () {
-            console.log("Hier");
             modal.remove();
             self.renderMaterial();
         });
