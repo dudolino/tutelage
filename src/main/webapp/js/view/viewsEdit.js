@@ -176,8 +176,12 @@ var MaterialListEditView = Backbone.View.extend({
     },
 
     removeMaterial: function () {
-        this.model.destroy();
-        this.$el.html("");
+        if(editUtils.isMaterialUsed(this.model.get("number"))){
+             console.log("used")
+        }   else{
+            this.model.destroy();
+            this.$el.html("");
+        }
     },
 
     render: function () {
@@ -252,7 +256,12 @@ var AnleitungEditView = Backbone.View.extend({
             haupttitel: h,
             untertitel: u
         });
-        this.model.save();
+        this.model.save({
+            success : function() {
+                console.log("Anleitung saved...");
+                this.renderSchritte();
+            }
+        });
     },
 
     addSchritt: function () {
@@ -314,7 +323,6 @@ var AnleitungEditView = Backbone.View.extend({
     },
 
     renderSchritte: function () {
-        console.log("renderSchritte");
         var area = this.$el.find('#schrittContainer');
         area.empty();
         if (this.schritte.length) {
@@ -348,12 +356,14 @@ var AnleitungEditView = Backbone.View.extend({
 
 var editUtils = {
     isMaterialUsed: function (materialNumber) {
+        var result=false;
         $("a[id=openMaterialLink]").each(function () {
             numberToInt = parseInt(this.name);
             if (numberToInt == materialNumber) {
-                return true;
+                result= true;
             }
         });
+        return result;
     },
 
     editLinks: function (materialList) {

@@ -1,5 +1,7 @@
 var SchrittView = Backbone.View.extend({
 
+    className: "col-lg-10",
+
 	template : _.template($('#template-Schritt').html()),
 
 	initialize : function(attrs) {
@@ -27,31 +29,11 @@ var SchrittView = Backbone.View.extend({
 
 var MaterialView = Backbone.View.extend({
 
-	tagName : "tr",
-
 	template : _.template($('#template-Material').html()),
 
 	render : function() {
 		this.$el.html(this.template(this.model.toJSON()));
 		return this;
-	}
-});
-
-var MaterialListeView = Backbone.View.extend({
-
-	tagName : "table",
-
-	className : "table",
-
-	render : function() {
-		if (this.model.length) {
-			this.model.each(function(material) {
-				this.$el.append(new MaterialView({
-					model : material
-				}).render().el);
-			}, this);
-			return this;
-		}
 	}
 });
 
@@ -68,10 +50,11 @@ var AnleitungView = Backbone.View.extend({
 	},
 
 	renderSchritte : function() {
+        var schritteContainer=this.$el.find('#schritteContainer');
 		var schritte = this.model.get('schritte');
 		if (schritte.length) {
 			schritte.each(function(schritt) {
-				this.$el.append(new SchrittView({
+                schritteContainer.append(new SchrittView({
 					model : schritt,
 					material : this.model.get('material')
 				}).render().el);
@@ -80,10 +63,11 @@ var AnleitungView = Backbone.View.extend({
 	},
 
 	renderMaterial : function() {
+        var materialContainer=this.$el.find('#materialContainer');
 		var material = this.model.get('material');
 		if (material.length) {
 			material.each(function(material) {
-				this.$el.append(new MaterialView({
+                materialContainer.append(new MaterialView({
 					model : material
 				}).render().el);
 			}, this);
